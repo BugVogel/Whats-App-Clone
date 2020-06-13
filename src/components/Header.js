@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {
     View, 
     Text,
@@ -11,14 +11,32 @@ import commom from '../common'
 
 
 
-const Header = props => {
+class Header extends Component {
+
+    
+   render(){
+
+    
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Whats app</Text>
-            <View style={styles.icons}>
+            {this.props.name &&
+            
+                <TouchableOpacity style={styles.backButton }onPress={ () => this.props.goBack()}>
+                    <Icon  name={'arrow-left'} size={20} color={'white'}/>
+                </TouchableOpacity> 
+            }
+            <Text style={styles.title}>{this.props.name != null ? this.props.name : 'Whats app'}</Text>
+            <View style={[styles.icons, {flex: this.props.name != null ? 2 : 1}]}>
+                {this.props.name && 
+                
+                <TouchableOpacity>
+                    <Icon name={"video-camera"} size={20} color={'white'} />
+                </TouchableOpacity>
+                }
+               
                 <TouchableOpacity style={styles.search} >
-                    <Icon name="search" size={20} color="white"/>
+                    <Icon name={this.props.name != null ? 'phone' : 'search'} size={20} color="white"/>
                 </TouchableOpacity >
                 <TouchableOpacity style={styles.config} >
                     <Icon name="ellipsis-v" size={20} color="white"/>
@@ -29,6 +47,12 @@ const Header = props => {
 
 
     )
+
+
+
+   }
+
+   
 
 
 }
@@ -55,11 +79,17 @@ const styles = StyleSheet.create({
     icons:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flex:1
+        alignItems: 'center'
+        
 
         
 
     },
+    backButton:{
+        marginRight: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 
 
 

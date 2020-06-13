@@ -10,6 +10,7 @@ TouchableOpacity
 import Header from '../components/Header' 
 import Menu from '../components/Menu'
 import GeneralItem from '../components/GeneralItem'
+import ContactsButton from '../components/ContactsButton'
 
 
 
@@ -32,16 +33,17 @@ class Home extends Component  {
     }
  
     render(){
+      
 
       return(
 
         <View style={styles.container}>
-            <Header  />
+            <Header name={null} goBack={null} />
             <Menu updateWindow={this.updateWindow}/>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={ () => this.props.navigation.navigate('Chat')}>
               <GeneralItem image={require('../../assets/imgs/bugPerfil.png')} name={'Bruno Vogel'} timeLastMesage={'14:30'} numMesages={5} type={this.state.window}/>
-              <GeneralItem image={require('../../assets/imgs/blankProfile.jpg')} name={'Alicia Gomes'} timeLastMesage={'19:21'} numMesages={10} type={this.state.window}/>
             </TouchableOpacity>
+            <ContactsButton />
             
         </View>
       )
