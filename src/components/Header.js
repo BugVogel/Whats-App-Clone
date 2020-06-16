@@ -27,8 +27,8 @@ class Header extends Component {
                 </TouchableOpacity> 
             }
             <Text style={styles.title}>{this.props.name != null ? this.props.name : 'Whats app'}</Text>
-            <View style={[styles.icons, {flex: this.props.name != null ? 2 : 1}]}>
-                {this.props.name && 
+            <View style={[styles.icons, {flex: this.props.name != null && this.props.contacts == null ? 2 : 1}]}>
+                {this.props.name  && this.props.contacts == null && 
                 
                 <TouchableOpacity>
                     <Icon name={"video-camera"} size={20} color={'white'} />
@@ -36,7 +36,7 @@ class Header extends Component {
                 }
                
                 <TouchableOpacity style={styles.search} >
-                    <Icon name={this.props.name != null ? 'phone' : 'search'} size={20} color="white"/>
+                    <Icon name={this.props.name != null && this.props.contacts == null  ? 'phone' : 'search'} size={20} color="white"/>
                 </TouchableOpacity >
                 <TouchableOpacity style={styles.config} >
                     <Icon name="ellipsis-v" size={20} color="white"/>

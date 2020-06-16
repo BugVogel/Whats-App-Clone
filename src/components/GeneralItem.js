@@ -34,13 +34,14 @@ class GeneralItem extends Component {
           info =   <View style={{alignItems: 'center', justifyContent: 'center', borderBottomWidth:0.3, borderBottomColor: commom.colors.third}}>
                     </View>
         }
-        else{
+        else if(this.props.type == 'calls'){
            info = 
            
                 <Icon  name={'phone'} size={20} color={commom.colors.primary}/>
       
            
         }
+        
 
         return(
 
@@ -50,7 +51,7 @@ class GeneralItem extends Component {
             </View>
             <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>{this.props.name}</Text>
-                <Text style={styles.subTitleText}>Fala mano, como vc tá ? Eu tava...</Text>
+                <Text style={styles.subTitleText}>{ this.props.lastMessage}</Text>
             </View>
             
                 { info }

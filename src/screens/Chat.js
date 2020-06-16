@@ -8,7 +8,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 
-
 const initialState = {
     id: Math.random(),
         message: {
@@ -68,15 +67,26 @@ class Chat extends Component{
     render(){
 
 
-        let view = []
-        for(let i =0; i<this.state.messages.length; i++){
+        let view = this.state.messages.map( (props, key) => {
+        
+            return(
+
+            <BallonMessage key={key} myMessage = { this.state.messages[key].senderId === this.state.id ? 
+                true : null} message={this.state.messages[key].text} image={null} />
+
+            )
+            
+
+
+        })
+        
             
     
 
-            view.push(<BallonMessage myMessage = { this.state.messages[i].senderId === this.state.id ?  true : null} message={this.state.messages[i].text} image={null} />)
+     
             
 
-        }
+        
 
 
         return (
@@ -85,7 +95,7 @@ class Chat extends Component{
                 <Header name={'Bruno Vogel'} goBack={this.goBack} />
                 <View style={styles.messagensContainer}>
                     <ImageBackground style={{width: '100%', flex:1, justifyContent: 'flex-end'}} source={require('../../assets/imgs/wallpaper.png')} >
-
+                   
                         <ScrollView  style={{flex:2}}>
 
                             

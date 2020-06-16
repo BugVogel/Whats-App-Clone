@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import common from '../common'
 
 
+  
+
 
 
 
@@ -12,20 +14,18 @@ class Menu extends Component {
 
   
 
-    state={
-
-        window: 'chat'
-
-    }
 
 
     updateButton = window => {
 
 
-       this.setState({window})
         this.props.updateWindow(window)
 
+
     }
+
+
+
 
 
 
@@ -34,16 +34,16 @@ class Menu extends Component {
         return(
 
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.updateButton('camera')} style={[styles.cameraIcon, this.state.window == 'camera' ? styles.selected : null]}>
+                <TouchableOpacity onPress={() => this.updateButton('camera')} style={[styles.cameraIcon, this.props.window == 'camera' ? styles.selected : null]}>
                     <Icon name="camera" size={20} color={"white"}/>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.updateButton('chats')} style={[styles.option, this.state.window == 'chat' ? styles.selected : null]}>
+                <TouchableOpacity onPress={() => this.updateButton('chats')} style={[styles.option, this.props.window == 'chats' ? styles.selected : null]}>
                     <Text style={styles.textOption}>Conversas</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.updateButton('status')} style={[styles.option, this.state.window == 'status' ? styles.selected : null]}>
+                <TouchableOpacity onPress={() => this.updateButton('status')} style={[styles.option, this.props.window == 'status' ? styles.selected : null]}>
                     <Text style={styles.textOption}>Status</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.updateButton('calls')} style={[styles.option, this.state.window == 'chamadas' ? styles.selected : null]}>
+                <TouchableOpacity onPress={() => this.updateButton('calls')} style={[styles.option, this.props.window == 'calls' ? styles.selected : null]}>
                     <Text style={styles.textOption}>Chamadas</Text>
                 </TouchableOpacity>
             </View>
