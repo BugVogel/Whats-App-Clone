@@ -63,7 +63,7 @@ class Home extends Component  {
     setStatus = () =>{
 
       ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
+       
       
         if (response.didCancel) {
           console.log('User cancelled image picker');
