@@ -1,4 +1,4 @@
-import {SIGNINGIN, LOGGED,LOGGING, SIGNEDIN} from '../actions/actionsType'
+import {SIGNINGIN, LOGGED,LOGGING, SIGNEDIN, LOGGED_OUT} from '../actions/actionsType'
 
 
 const initialState= {
@@ -38,6 +38,11 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 email: action.payload.email,
                 loading: false,
+            }
+        case LOGGED_OUT:
+            return{
+                ...state,
+                loading: false
             }
 
         default: 

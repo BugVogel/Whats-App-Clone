@@ -7,6 +7,10 @@ export default commom = {
         third: '#a9aba9'
 
     },
+    fonts:{
+        primary: 'SpaceComics'
+
+    }
    
     
 

@@ -1,5 +1,7 @@
-import { LOGGED,LOGGING, SIGNEDIN, SIGNINGIN} from "./actionsType"
+import { LOGGED,LOGGING, SIGNEDIN, SIGNINGIN, LOGGED_OUT} from "./actionsType"
 import auth from '@react-native-firebase/auth'
+import {sendMessageForUser} from './message'
+import database from '@react-native-firebase/database';
 
 
 
@@ -51,27 +53,61 @@ export const userLogging = () =>{
 
 }
 
+export const loggedOut = () =>{
+    return{
+        type: LOGGED_OUT
+    }
+
+}
+
 export const signIn = user => {
 
-    return dispatch => {
+    return  async dispatch => {
         dispatch(userSigningIn())
 
-        auth.createUserWithEmailAndPassoword(user.email, user.password)
-        .then( () => {
-
-            console.log('Usuário Criado com sucesso!')
-            dispatch(userSigned(user))
+       await  auth().createUserWithEmailAndPassword(user.email, user.password)
+        .then( async res => {
+            const uid = res.user.uid
            
 
+
+           await database().ref(`/users/${uid}`).set({
+                name: user.name,
+                email: user.email,
+                phone: user.phone
+                
+            })
+            .catch(err => {
+
+                dispatch(sendMessageForUser({
+                    text: 'Não foi possível cadastrar informações adicionais'
+                }))
+
+            })
+            .then( () => {
+                dispatch(sendMessageForUser({
+                    text: 'Usuário cadastrado com sucesso!'
+                }))
+                dispatch(userSigned(user))
+
+            })
+
+        
         })
-        .catch( err => {
+        .catch( error => {
 
             if (error.code === 'auth/email-already-in-use') {
-                console.log('Email já existe');
+                dispatch(sendMessageForUser({
+                    text: 'Ops, Email já existe'
+                }))
+                return
               }
           
               if (error.code === 'auth/invalid-email') {
-                console.log('Email inválido');
+                dispatch(sendMessageForUser({
+                    text: 'Ops, email inválido'
+                }))
+                return
               }
           
               console.error(error);
