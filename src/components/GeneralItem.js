@@ -41,6 +41,16 @@ class GeneralItem extends Component {
       
            
         }
+        else if( this.props.type == 'contacts' && !this.props.haveWhatsAppAccount){
+
+            info=
+            <View style={styles.infoContainer}>
+                <Text style={{color:'black', flex:1}}>Sem cadastro</Text>
+
+            </View>
+                
+
+        }
         
 
         return(

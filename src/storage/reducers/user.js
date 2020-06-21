@@ -3,8 +3,10 @@ import {SIGNINGIN, LOGGED,LOGGING, SIGNEDIN, LOGGED_OUT} from '../actions/action
 
 const initialState= {
 
+    uid: null,
     email: null,
-    loading: false
+    loading: false,
+    logged: false,
 
 }
 
@@ -18,14 +20,17 @@ const reducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 loading: true,
+               
 
 
             }
         case SIGNEDIN:
             return{
                 ...state,
+                id: action.payload.uid,
                 email: action.payload.email,
-                loading:false
+                loading:false,
+                logged: true,
             }
         case LOGGING:
             return{
@@ -36,13 +41,16 @@ const reducer = ( state = initialState, action ) => {
         case LOGGED:
             return{
                 ...state,
+                id: action.payload.uid,
                 email: action.payload.email,
                 loading: false,
+                logged: true,
             }
         case LOGGED_OUT:
             return{
                 ...state,
-                loading: false
+                loading: false,
+                logged: false,
             }
 
         default: 

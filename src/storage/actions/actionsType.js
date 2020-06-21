@@ -1,5 +1,6 @@
 export const SEND_MESSAGE = "SEND_MESSAGE"
 export const GET_CHATS = "GET_CHATS"
+export const GET_MESSAGES = "GET_MESSAGES"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const SAW_STATUS ="SAW_STATUS"
 export const GET_FRIENDS_LIST = "GET_FRIENDS_LIST"

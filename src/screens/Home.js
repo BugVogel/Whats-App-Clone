@@ -8,16 +8,13 @@ TouchableOpacity,
 Image,
 TextInput
 } from 'react-native';
-
 import Header from '../components/Header' 
 import Menu from '../components/Menu'
 import GeneralItem from '../components/GeneralItem'
-
 import AcessContacts from '../components/AcessContacts'
-
-
 import ImagePicker from 'react-native-image-picker'
 import  Icon  from 'react-native-vector-icons/FontAwesome';
+
 
 
 const options = {
@@ -43,6 +40,9 @@ class Home extends Component  {
     state={
       ...initialState
     }
+
+
+   
 
 
     updateWindow = window => {

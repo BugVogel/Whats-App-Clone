@@ -8,16 +8,32 @@ import database from '@react-native-firebase/database';
 
 export const login = user =>{
 
-    return  dispatch => {
+    return async  dispatch => {
+        dispatch(userLogging())
 
+        auth().signInWithEmailAndPassword(user.email,user.password)
+        .catch(err => {
+            sendMessageForUser({
+                title: 'Erro de login',
+                text: 'Email ou senha inválidos'
+            })
+
+        })
+        .then(res => {
+
+
+                dispatch(sendMessageForUser({
+                    title: 'Bem vindo',
+                    text: 'Login realizado com sucesso'
+
+                }))
+            
+                dispatch(userLogged(res.user))
+        })
         
 
 
     }
-
-
-
-
 }
 
 
@@ -60,7 +76,7 @@ export const loggedOut = () =>{
 
 }
 
-export const signIn = user => {
+export const signIn = user => { //Cadastro
 
     return  async dispatch => {
         dispatch(userSigningIn())
@@ -71,9 +87,8 @@ export const signIn = user => {
            
 
 
-           await database().ref(`/users/${uid}`).set({
-                name: user.name,
-                email: user.email,
+           await database().ref(`/users/${uid}/info`).set({
+    
                 phone: user.phone
                 
             })

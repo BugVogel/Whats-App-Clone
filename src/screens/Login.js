@@ -1,5 +1,5 @@
 import React, {Component}  from 'react'
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, ActivityIndicatorComponent} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import commom from '../common'
 import { connect} from 'react-redux'
@@ -17,6 +17,7 @@ const initialState = {
         confirmPassword: '',
         phone: '',
         registerMode: false,
+    
 
 
 }
@@ -30,6 +31,17 @@ class Login extends Component {
         ...initialState
     
     }
+
+
+    componentDidUpdate = prevProps =>{
+
+        if(   this.props.logged){
+            this.props.navigation.navigate('Home')
+        }
+
+    }
+
+    
 
 
 
@@ -67,11 +79,26 @@ class Login extends Component {
 
 
 
+    loginUser = () => {
+
+        this.props.onLoginUser({...this.state})
+
+
+    }
+
+
+
     render(){
+
+
+    
+
 
         return(
 
+            
             <View style={styles.container}>
+                {this.props.loading == true ? <ActivityIndicator style={{flex:1}} size={'large'}/> : 
                 <View style={styles.subContainer}>
                     <Icon  name={"whatsapp"} size={50} color={commom.colors.primary} />
                     <Text style={styles.title}>WHATS APP CLONE</Text>
@@ -89,8 +116,8 @@ class Login extends Component {
                         }
 
                     </View>
-                    <TouchableOpacity onPress={this.registerUser} style={styles.loginButton}>
-                        <Text style={styles.textLoginButton}>Entrar</Text>
+                    <TouchableOpacity onPress={ this.state.registerMode != true ? this.loginUser :  this.registerUser} style={styles.loginButton}>
+                        <Text style={styles.textLoginButton}>{this.state.registerMode != true ? 'Entrar' : 'Cadastrar'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={ () =>  this.setState({registerMode: !this.state.registerMode})} style={styles.registerLinkContainer}>
                         <Text style={styles.registerText}>{this.state.registerMode == false ? 'Ainda não possui uma conta ?' : 'Já possui uma conta ?'}</Text>
@@ -101,10 +128,10 @@ class Login extends Component {
 
 
                 </View>
-
+                }
             </View>
 
-
+                    
 
         )
 
@@ -188,14 +215,11 @@ const styles = StyleSheet.create({
 })
 
 
+const mapStateToProps = ({user}) => {
 
-const mapDispatchToProps = dispatch => {
-
-
-    return {
-
-        onRegisterUser: user => dispatch(signIn(user)),
-        onSendMessageForUser: message => dispatch(sendMessageForUser(message))
+    return{
+        loading: user.loading,
+        logged: user.logged
 
     }
 
@@ -203,4 +227,19 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(null,mapDispatchToProps)(Login)
+const mapDispatchToProps = dispatch => {
+
+
+    return {
+
+        onRegisterUser: user => dispatch(signIn(user)),
+        onSendMessageForUser: message => dispatch(sendMessageForUser(message)),
+        onLoginUser: user => dispatch(login(user))
+
+    }
+
+
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login)
