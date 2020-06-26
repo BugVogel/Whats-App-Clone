@@ -5,5 +5,6 @@ export default  {
     messagingSenderId: '528980778898',
     projectId: 'whatsappclone-7c027',
     appId: '1:528980778898:android:c451972431785ade68eb4b',
-    storageBucket: 'gs://whatsappclone-7c027.appspot.com'
+    storageBucket: 'gs://whatsappclone-7c027.appspot.com',
+    
 }
