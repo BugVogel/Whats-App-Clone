@@ -35,6 +35,14 @@ const reducer = (state = initialState, action) =>{
                 ...state,
                 
             }
+
+        case GET_CHATS:
+
+            return{
+                ...state,
+                chats: action.payload
+            }
+
         default:
             return state
 

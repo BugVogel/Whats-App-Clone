@@ -48,9 +48,7 @@ const reducer = ( state = initialState, action ) => {
             }
         case LOGGED_OUT:
             return{
-                ...state,
-                loading: false,
-                logged: false,
+                ...initialState
             }
 
         default: 

@@ -36,6 +36,7 @@ class Login extends Component {
     componentDidUpdate = prevProps =>{
 
         if(   this.props.logged){
+           
             this.props.navigation.navigate('Home')
         }
 
@@ -82,6 +83,7 @@ class Login extends Component {
     loginUser = () => {
 
         this.props.onLoginUser({...this.state})
+        this.setState({...initialState})
 
 
     }

@@ -76,6 +76,10 @@ export const loggedOut = () =>{
 
 }
 
+
+
+
+
 export const signIn = user => { //Cadastro
 
     return  async dispatch => {
@@ -88,7 +92,7 @@ export const signIn = user => { //Cadastro
 
 
            await database().ref(`/users/${uid}/info`).set({
-    
+                name: user.name,
                 phone: user.phone
                 
             })

@@ -9,6 +9,8 @@ import {getMessages,sendMessage} from '../storage/actions/chat'
 
 
 
+
+
 const initialState = {
     id: Math.random(),
         message: {
@@ -63,9 +65,13 @@ class Chat extends Component{
 
     sendMessage =  () =>{
 
-    
+        if(this.state.message.text === '' || this.state.message.text.trim() === ''){
+            return
+        }
+
+
         this.props.onSendMessage(this.props.id,this.props.navigation.state.params.receiverId, this.state.message)
-        console.log(this.props.currentMessages)
+     
         this.setState({...initialState})
 
     }
@@ -73,7 +79,7 @@ class Chat extends Component{
 
     render(){
 
-       console.log(this.props.currentMessages)
+      
 
         let view = this.props.currentMessages.map( (props, key) => {
         

@@ -2,18 +2,81 @@ import {GET_CHATS, SEND_MESSAGE, GET_FRIENDS_LIST, GET_MESSAGES} from './actions
 import database from '@react-native-firebase/database'
 import storage from '@react-native-firebase/storage'
 import {sendMessageForUser} from './message'
+import moment from 'moment'
+
+
+
 
 export const getChats = id => {
 
+
     return dispatch => {
 
-        database().ref(`/users/${id}/chats`).once('value')
+       
+
+        database().ref(`/users/${id}/chats`).orderByChild('timeLastMessage').once('value')
         .then(snapshot => {
 
-            console.log(snapshot.val())
+           let chats =  snapshot.val()
+           let chatsArray = []
+
+           
+           
+
+            for(var key in chats){ //Coloca o parametro da ultima mensagem enviada
+
+                
+
+                let chat = chats[key]
+                let msgArray = chat[Object.keys(chat).reverse()[Object.keys(chat).length-2]]
+                let lastMessage = msgArray[Object.keys(msgArray)[0]]
+                let phone = null
+                let index = key
+
+               
+                //console.log(url)
+                //console.log(chats[key])
+                
+                database().ref(`/users/${key}/info`).once('value')
+                .then(info =>{
+
+                    phone =info.val().phone
+                    chats[index].phone = phone
+                    chats[index].lastMessage =  lastMessage
+                    chatsArray.push([index, chats[index]])
+              
+                    dispatch(setChats(chatsArray))
+                    
+                })
+                
+            }
+
+          
+            
+           
+
+            
+                 
+         
+
+
+
+
+
 
         })
 
+
+    }
+
+
+}
+
+export const setChats = chats => {
+
+    return{
+        type:GET_CHATS,
+        payload: chats
 
     }
 
@@ -36,7 +99,7 @@ export const sendMessage = (senderId,receiverId, msg) =>{
 
     return dispatch =>{
 
-
+        let time =  moment(new Date()).utc().format('DD-MM-YYYY/HH:mm/ss')
 
         let newReference = database().ref(`/users/${receiverId}/chats/${senderId}`).push()
         newReference.set(msg) //Coloca nas conversas do que envia
@@ -44,11 +107,17 @@ export const sendMessage = (senderId,receiverId, msg) =>{
         newReference = database().ref(`/users/${senderId}/chats/${receiverId}`).push()
         newReference.set(msg) //coloca nas conversas do recebedor
         .then(() =>{
-
-            
-
             dispatch(getMessages(senderId,receiverId))
 
+        })
+
+
+        //Setando o horário de envio da ultima mensagem
+        database().ref(`/users/${receiverId}/chats/${senderId}`).update({
+            timeLastMessage: time
+        })
+        database().ref(`/users/${senderId}/chats/${receiverId}`).update({
+            timeLastMessage: time
         })
 
 
@@ -91,8 +160,10 @@ export const getMessages = (senderId, receiverId) => {
 
             }
             
+            messagesArray.shift()
             
             dispatch(gotMessages(messagesArray.reverse()))
+            dispatch(getChats(senderId))
             
 
         })

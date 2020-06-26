@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     image:{
         resizeMode: 'contain',
         borderRadius: 700,
-        height: 45,
-        width: 45,
+        height: 35,
+        width: 35,
        
      
     },

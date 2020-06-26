@@ -8,13 +8,28 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import commom from '../common'
+import {connect} from 'react-redux'
+import {loggedOut} from '../storage/actions/user'
 
 
 
 class Header extends Component {
 
+
+
+    loggOut = () =>{
+
+
+        this.props.onLoggedOut()
+        this.props.goLogin()
+
+
+    }
+
     
    render(){
+
+    
 
     
 
@@ -38,8 +53,8 @@ class Header extends Component {
                 <TouchableOpacity style={styles.search} >
                     <Icon name={this.props.name != null && this.props.contacts == null  ? 'phone' : 'search'} size={20} color="white"/>
                 </TouchableOpacity >
-                <TouchableOpacity style={styles.config} >
-                    <Icon name="ellipsis-v" size={20} color="white"/>
+                <TouchableOpacity onPress={this.loggOut} style={styles.config} >
+                    <Icon name="sign-out" size={20} color="white"/>
                 </TouchableOpacity >
             </View>
 
@@ -97,4 +112,17 @@ const styles = StyleSheet.create({
 })
 
 
-export default  Header
+
+const mapDispatchToProps = dispatch =>{
+
+
+    return{
+
+        onLoggedOut : () => dispatch(loggedOut())
+
+    }
+
+}
+
+
+export default  connect(null,mapDispatchToProps)(Header)
